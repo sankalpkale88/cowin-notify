@@ -131,6 +131,7 @@ def search_slot(args):
         if slots:
             send_notification(args.email,args.password, slots)
             break;
+            sys.exit(0)
         else:
             print("No Slots available retrying after 2 min")
             time.sleep(120)

@@ -22,5 +22,5 @@ python cowin.py --state Maharashtra --district Pune  --age 31 --email <gmail_id>
 ```
 
 ### Note
-If your gmail has 2FA enabled please follow the steps mentioned in and generate 16 character password.
+If your gmail has 2FA enabled please follow the steps mentioned below and generate 16 character password.
 https://support.google.com/mail/answer/7126229?p=WebLoginRequired

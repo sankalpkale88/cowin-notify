@@ -1,5 +1,8 @@
 This tool is used to get available slots for vaccination in India. 
-This dont have much of validations on input , simple script to notify users on vaccine slot availability.
+
+This will send an email notification on available slot
+
+This is simple cowin vaccination available slot notification script.
 
 ## Installation
 Cowin Vaccine Notify

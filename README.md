@@ -13,7 +13,7 @@ pip install requests
 
 ## Search Slot By PinCode
 ```
-python cowin.py --pincode  --age 31 --email <gmail_id> --password <gmail_password>
+python cowin.py --pincode 440010 --age 31 --email <gmail_id> --password <gmail_password>
 ```
 
 ## Serach Slot By District

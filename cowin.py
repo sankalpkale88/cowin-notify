@@ -144,7 +144,7 @@ def search_slot(args):
             else:
                 send_notification(args.email,args.password, slots)
         else:
-            print("No Slots available retrying after 60 sec")
+            print("No Slots available retrying after 5 sec")
             time.sleep(5)
 
 def parse(args):

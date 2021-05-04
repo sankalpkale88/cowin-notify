@@ -2,7 +2,7 @@ This tool is used to get available slots for vaccination in India for 7 days.
 
 It will keep on checking the available slots every 2 mins until it find the slot.
 
-This will send an email notification on available slot
+This will play a sound or send an email notification on available slot
 
 
 ## Installation

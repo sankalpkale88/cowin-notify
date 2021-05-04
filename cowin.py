@@ -8,6 +8,9 @@ import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from playsound import playsound
+
+
 port = 587  # For SSL
 smtp_server = "smtp.gmail.com"
 baseURL = "https://cdn-api.co-vin.in/api"
@@ -17,6 +20,8 @@ listStatesURLFormat = "/v2/admin/location/states"
 listDistrictsURLFormat = "/v2/admin/location/districts/{0}"
 state_id = None
 district_id = None
+reciever_email = None
+driver = None
 
 def get_available_slots(slots, age):
     centers_slots = slots['centers']
@@ -119,6 +124,11 @@ def send_notification(email_id,password, slots):
         server.sendmail(email_id, email_id, message.as_string())
         print("Email sent!!")
 
+def play_sound(slots, sound_mp3):
+    print(slots)
+    playsound(sound_mp3)
+
+
 def search_slot(args):
     while(True):
         if args.pincode:
@@ -129,12 +139,13 @@ def search_slot(args):
             slots = serach_by_district(district_id,args.age)
 
         if slots:
-            send_notification(args.email,args.password, slots)
-            break;
-            sys.exit(0)
+            if args.playsound:
+                play_sound(slots,args.playsound)
+            else:
+                send_notification(args.email,args.password, slots)
         else:
-            print("No Slots available retrying after 2 min")
-            time.sleep(120)
+            print("No Slots available retrying after 60 sec")
+            time.sleep(5)
 
 def parse(args):
     parser = argparse.ArgumentParser(description="script to send cowin availbility alert",prog="cowin")
@@ -142,8 +153,9 @@ def parse(args):
     parser.add_argument("--district", help="state", required=False, action="store")
     parser.add_argument("--pincode", help="state", required=False, action="store")
     parser.add_argument("--age", help="state", required=True, action="store")
-    parser.add_argument("--email", help="state", required=True, action="store")
-    parser.add_argument("--password", help="state", required=True, action="store")
+    parser.add_argument("--playsound", help="path of mp3 file", required=False, action="store")
+    parser.add_argument("--email", help="state", required=False, action="store")
+    parser.add_argument("--password", help="state", required=False, action="store")
     return parser.parse_args(args)
 
 
@@ -151,4 +163,3 @@ def parse(args):
 if __name__ == '__main__':
     args = parse(sys.argv[1:])
     search_slot(args)
-

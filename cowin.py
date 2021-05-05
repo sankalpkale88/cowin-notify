@@ -40,11 +40,20 @@ def get_available_slots(slots, age):
                 available_slots.append(available_slot)
     return available_slots
 
+def get_headers():
+    headers = {}
+    headers['origin'] = 'https://www.cowin.gov.in'
+    headers['referer'] = 'https://www.cowin.gov.in'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'cross-site'
+    headers['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+    return headers
 
 def serach_by_pincode(pincode , age):
     current_date = datetime.today().strftime('%d-%m-%Y')
     url = baseURL + calendarByPinURLFormat.format(pincode,current_date)
-    response = requests.request("GET", url)
+
+    response = requests.request("GET", url, headers = get_headers())
     if response.status_code == 200:
         slots = json.loads(response.text)
         #print(slots)
@@ -59,7 +68,7 @@ def get_state_id(state_name):
     if state_id:
         return state_id
     url = baseURL + listStatesURLFormat
-    response = requests.request("GET", url)
+    response = requests.request("GET", url,headers = get_headers())
     if response.status_code == 200:
         states_json  = json.loads(response.text)
         states = states_json['states']
@@ -77,7 +86,7 @@ def get_districit_id(state_id , district_name):
     if district_id:
         return district_id
     url = baseURL + listDistrictsURLFormat.format(state_id)
-    response = requests.request("GET", url)
+    response = requests.request("GET", url,headers= get_headers())
     if response.status_code == 200:
         district_json = json.loads(response.text)
         for district in district_json['districts']:
@@ -95,7 +104,7 @@ def get_districit_id(state_id , district_name):
 def serach_by_district(district_id, age):
     current_date = datetime.today().strftime('%d-%m-%Y')
     url = baseURL + calendarByDistrictURLFormat.format(district_id, current_date)
-    response = requests.request("GET", url)
+    response = requests.request("GET", url,headers= get_headers())
     if response.status_code == 200:
         slots = json.loads(response.text)
         # print(slots)

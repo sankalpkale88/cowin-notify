@@ -26,10 +26,19 @@ driver = None
 def get_available_slots(slots, age):
     centers_slots = slots['centers']
     available_slots = []
+
+    if int(age) >= 45:
+        ageBand = 45
+    elif int(age) >= 18:
+        ageBand = 18
+    else:
+        ageBand = 0
+
+
     for center in centers_slots:
         sessions = center["sessions"]
         for session in sessions:
-            if session['available_capacity'] > 0 and session['min_age_limit'] <= int(age):
+            if session['available_capacity'] > 0 and session['min_age_limit'] == ageBand:
                 available_slot = {}
                 available_slot['name']=center['name']
                 available_slot['state_name'] = center['state_name']
@@ -92,6 +101,7 @@ def get_districit_id(state_id , district_name):
         for district in district_json['districts']:
             if district['district_name'].lower() == district_name.lower():
                 district_id = district['district_id']
+                print('district_id: '+str(district_id))
                 return
         valid_districts = []
         for district in district_json['districts']:
@@ -134,7 +144,9 @@ def send_notification(email_id,password, slots):
         print("Email sent!!")
 
 def play_sound(slots, sound_mp3):
-    print(slots)
+    # print(slots)
+    print("***************************" + str(datetime.today()) + "***************************");
+    print(json.dumps(slots, indent = 3))
     playsound(sound_mp3)
 
 
@@ -150,11 +162,12 @@ def search_slot(args):
         if slots:
             if args.playsound:
                 play_sound(slots,args.playsound)
+                time.sleep(10)
             else:
                 send_notification(args.email,args.password, slots)
         else:
             print("No Slots available retrying after 5 sec")
-            time.sleep(5)
+            time.sleep(10)
 
 def parse(args):
     parser = argparse.ArgumentParser(description="script to send cowin availbility alert",prog="cowin")
